@@ -211,7 +211,8 @@ public:
 
 template<typename T>
 Buffer<T> getBuffer(const std::string &name) {
-	return Buffer<T>(name, 128); 
+	Buffer<T> b = Buffer<T>(name, 128); 
+	return b;
 }
 
 int main() {
@@ -225,6 +226,7 @@ int main() {
 ```
 语句①：getBuffer函数返回的应该是临时对象，为右值，所以`b4`构造时调用的应该是`move constructor`。但是实际上，b4的对象的构造仅仅只调用了一次constructor函数。
 原因是，c++的编译器中有一种叫`返回值优化(RVO, Return Value Optimization)`的东东。(c++的编译器真的做了很多事情，要学好用好c++必须得清楚编译器做了啥，不然会弄巧成拙)
+可以通过添加编译选项 `-fno-elide-constructors`来禁用返回值优化。
 
 * `返回值优化(RVO)`是现代c++编译器都拥有的功能。根据effective modern c++中介绍，编译器进行RVO条件有:
  * 1. return 的值类型与 函数签名的返回值类型相同;
@@ -233,22 +235,7 @@ int main() {
  还是以对象b4的构造为例，若是没有该优化，则需要先调用构造函数构造临时对象，然后再调用复制构造函数构造b4，最后析构临时对象。可以看出，临时对象的存在实在是很浪费的，占用空间，而且只是为b4的构造而存在，b4构造完了之后生命也就终结了。这个临时的对象对于程序员来说是`透明的`，于是编译器干脆在里面做点手脚，不生成它们！
 怎么做呢？编译器“偷偷地”在我们写的`getBuffer`函数中增加一个参数 Buffer<T>&，然后把b4的地址传进去（注意，这个时候b4的内存空间已经存在了，但对象还没有被“构造”，即构造函数还没有被调用），然后在函数体内部，直接用b4来代替原来的“临时对象”，在函数体内部就完成b4的构造。
 
-* `具名返回值优化(NRVO)`：和RVO类似，只不过临时对象有名字，`getBuffer`函数改为下面这样即可：
-```c++
-...
-template<typename T>
-Buffer<T> getBuffer(const std::string &name) {
-	Buffer<T> b(name, 128); 
-	return b;
-}
-...
-```
-
-我们可以把语句①修改成这样：
-```c++
-Buffer<int> b4 = (std::move(getBuffer<int>("buf4"))); // ①
-```
-这样，返回值优化就失效了，此时，b4构造时会调用`constructor`和`move constructor`，感觉效率上可能会有所损失，毕竟多了一个`move constructor`的开销。
+* `具名返回值优化(NRVO)`：和RVO类似，只不过临时对象有名字。
 
 语句②：会调用move assignment operator
 
@@ -256,7 +243,8 @@ Buffer<int> b4 = (std::move(getBuffer<int>("buf4"))); // ①
 使用move时也需要注意，上面发现的move语义导致返回值优化的失效不知道算不算一个坑，本意上我们希望使用右值引用提高程序的效率，但是却导致返回值优化失效了，程序的效率并没有提高。
 > 右值引用可以理解为是优化栈空间的利用
 
-[补充材料] (http://stackoverflow.com/questions/4986673/c11-rvalues-and-move-semantics-confusion-return-statement?lq=1)
+[补充材料1] (http://stackoverflow.com/questions/4986673/c11-rvalues-and-move-semantics-confusion-return-statement?lq=1)
+[补充材料2] (http://blog.jobbole.com/97841/)
 
 ### 6. 智能指针
 c++98的智能指针是auto_ptr，在c++11中被废弃了。c++11引入了两个指针类：`shared_ptr`和`unique_ptr`。
