@@ -149,5 +149,28 @@ attribute.c:9: warning: format argument is not a pointer (arg 2)
 attribute.c:9: warning: too few arguments for format
 
 
- # 2. 链表
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
