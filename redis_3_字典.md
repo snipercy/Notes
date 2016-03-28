@@ -13,7 +13,7 @@
 
 redis的字典使用哈希表作为底层实现，一个哈希表里面可以有多个哈希表节点，每个哈希表节点就保存了字典中的一个键值对。
 
-[map-hash.png] (https://github.com/snipercy/Notes/tree/master/image/map-hash.png)
+![map-hash.png] (https://github.com/snipercy/Notes/tree/master/image/map-hash.png)
 
 - 哈希值： 使用`MurmurHash2` 算法。
 - 冲突：使用链地址法解决键冲突。
