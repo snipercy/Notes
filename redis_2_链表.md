@@ -35,7 +35,8 @@ typedef struct list {
 	int (*match)(void* ptr, void* key);
 }list;
 ```
-![](https://github.com/snipercy/Notes/blob/master/image/list.jpg)
+图示如下：
+![pic](https://github.com/snipercy/Notes/blob/master/image/list.jpg)
 
 Redis的链表实现的特性可以总结如下：
 - **双端**
