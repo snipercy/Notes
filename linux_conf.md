@@ -2,10 +2,10 @@
 
 ```sudo vim /etc/default/keyboard```
 增加一行：
-```XKBOPTIONS="ctrl:nocaps"```
+``` XKBOPTIONS="ctrl:nocaps" ```
 
-sudo dpkg-reconfigure keyboard-configuration
-选择默认
+``` sudo dpkg-reconfigure keyboard-configuration ```
+选择默认安装即可
 
 ## zsh安装和配置
 
