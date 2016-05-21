@@ -1,0 +1,8 @@
+## ubuntu 下交换大小写和ctrl按键键位
+
+```sudo vim /etc/default/keyboard```
+增加一行：
+```XKBOPTIONS="ctrl:nocaps"```
+
+sudo dpkg-reconfigure keyboard-configuration
+选择默认
