@@ -9,9 +9,12 @@
 
 ## zsh安装和配置
 
-ubuntu: ```sudo apt-get install zsh```
-centos: ```sudo yum install zsh```
-chsh -s /bin/zsh
+ubuntu: ``` sudo apt-get install zsh ```
+centos: ``` sudo yum install zsh ```
+切换shell：
+- 方法一：敲命令``` chsh -s /bin/zsh```
+- 方法二：修改配置文件：/etc/passwd
+
 配置： 使用oh-my-zsh
 ``` sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" ```
 
