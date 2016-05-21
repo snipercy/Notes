@@ -17,6 +17,7 @@ centos: ``` sudo yum install zsh ```
 - 方法一：敲命令``` chsh -s /bin/zsh```
 - 方法二：修改配置文件：/etc/passwd
 
-配置： 使用oh-my-zsh
+配置： 使用社区的oh-my-zsh默认配置
+
 ``` sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" ```
 
