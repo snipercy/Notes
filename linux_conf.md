@@ -10,7 +10,9 @@
 ## zsh安装和配置
 
 ubuntu: ``` sudo apt-get install zsh ```
+
 centos: ``` sudo yum install zsh ```
+
 切换shell：
 - 方法一：敲命令``` chsh -s /bin/zsh```
 - 方法二：修改配置文件：/etc/passwd
