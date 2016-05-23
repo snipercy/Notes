@@ -20,6 +20,8 @@ centos: ``` sudo yum install zsh ```
 配置： 使用社区的oh-my-zsh默认配置
 
 ``` sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" ```
+or
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
 
 ## 生成指定大小的文件
 ``` sd if=/dev/zero of=50M.file bs=1M count=50 ``` 
