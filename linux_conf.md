@@ -21,3 +21,7 @@ centos: ``` sudo yum install zsh ```
 
 ``` sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" ```
 
+## 生成指定大小的文件
+``` sd if=/dev/zero of=50M.file bs=1M count=50 ``` 
+
+
