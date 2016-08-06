@@ -1,0 +1,469 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>@charset "utf-8";
+ 
+html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+ 
+body{
+    color:#444;
+    font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    font-size:13px;
+    line-height:1.5em;
+    padding:1em;
+    margin:auto;
+    max-width:42em;
+    background:#fefefe;
+}
+ 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+ 
+h1 {
+    color: #000000;
+    font-size: 28px;
+}
+ 
+h2 {
+    border-bottom: 2px solid #CCCCCC;
+    color: #000000;
+    font-size: 24px;
+}
+ 
+h3 {
+    border-bottom: 2px solid #CCCCCC;
+    font-size: 18px;
+}
+ 
+h4 {
+    font-size: 16px;
+}
+ 
+h5 {
+    font-size: 14px;
+}
+ 
+h6 {
+    color: #777777;
+    background-color: inherit;
+    font-size: 14px;
+}
+ 
+hr {
+    height: 0.2em;
+    border: 0;
+    color: #CCCCCC;
+    background-color: #CCCCCC;
+}
+ 
+p, blockquote, ul, ol, dl, li, table, pre {
+    margin: 15px 0;
+}
+
+blockquota {
+
+}
+ 
+p{
+    margin:1em 0;
+}
+ 
+pre { 
+   background-color: #2d2d2d;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    overflow: auto;
+    padding: 5px;
+}
+ 
+pre code {
+    background-color: #F8F8F8;
+    border: none;    
+    padding: 0;
+}
+ code {
+    font-family: monospace, monospace;
+    background-color:#F8F8F8;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    line-height: 1;
+    text-shadow: 0 1px #fff;
+  padding: 0 0.3rem
+}
+
+pre > code {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+ 
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+ 
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+ 
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+ 
+blockquote{
+    color:#666666;
+    margin:0;
+    padding-left: 3em;
+    border-left: 0.5em #EEE solid;
+    border-color: green;
+}
+ 
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+ 
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; max-width:100%;}
+ 
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+ 
+@media only screen and (min-width: 480px) {
+    body{font-size:14px;}
+}
+ 
+@media only screen and (min-width: 768px) {
+    body{font-size:16px;}
+}
+
+</style><style>/*github*/
+.codehilite {background-color:#fff;color:#333333;}
+.codehilite .hll {background-color:#ffffcc;}
+.codehilite .c{color:#999988;font-style:italic}
+.codehilite .err{color:#a61717;background-color:#e3d2d2}
+.codehilite .k{font-weight:bold}
+.codehilite .o{font-weight:bold}
+.codehilite .cm{color:#999988;font-style:italic}
+.codehilite .cp{color:#999999;font-weight:bold}
+.codehilite .c1{color:#999988;font-style:italic}
+.codehilite .cs{color:#999999;font-weight:bold;font-style:italic}
+.codehilite .gd{color:#000000;background-color:#ffdddd}
+.codehilite .ge{font-style:italic}
+.codehilite .gr{color:#aa0000}
+.codehilite .gh{color:#999999}
+.codehilite .gi{color:#000000;background-color:#ddffdd}
+.codehilite .go{color:#888888}
+.codehilite .gp{color:#555555}
+.codehilite .gs{font-weight:bold}
+.codehilite .gu{color:#800080;font-weight:bold}
+.codehilite .gt{color:#aa0000}
+.codehilite .kc{font-weight:bold}
+.codehilite .kd{font-weight:bold}
+.codehilite .kn{font-weight:bold}
+.codehilite .kp{font-weight:bold}
+.codehilite .kr{font-weight:bold}
+.codehilite .kt{color:#445588;font-weight:bold}
+.codehilite .m{color:#009999}
+.codehilite .s{color:#dd1144}
+.codehilite .n{color:#333333}
+.codehilite .na{color:teal}
+.codehilite .nb{color:#0086b3}
+.codehilite .nc{color:#445588;font-weight:bold}
+.codehilite .no{color:teal}
+.codehilite .ni{color:purple}
+.codehilite .ne{color:#990000;font-weight:bold}
+.codehilite .nf{color:#990000;font-weight:bold}
+.codehilite .nn{color:#555555}
+.codehilite .nt{color:navy}
+.codehilite .nv{color:teal}
+.codehilite .ow{font-weight:bold}
+.codehilite .w{color:#bbbbbb}
+.codehilite .mf{color:#009999}
+.codehilite .mh{color:#009999}
+.codehilite .mi{color:#009999}
+.codehilite .mo{color:#009999}
+.codehilite .sb{color:#dd1144}
+.codehilite .sc{color:#dd1144}
+.codehilite .sd{color:#dd1144}
+.codehilite .s2{color:#dd1144}
+.codehilite .se{color:#dd1144}
+.codehilite .sh{color:#dd1144}
+.codehilite .si{color:#dd1144}
+.codehilite .sx{color:#dd1144}
+.codehilite .sr{color:#009926}
+.codehilite .s1{color:#dd1144}
+.codehilite .ss{color:#990073}
+.codehilite .bp{color:#999999}
+.codehilite .vc{color:teal}
+.codehilite .vg{color:teal}
+.codehilite .vi{color:teal}
+.codehilite .il{color:#009999}
+.codehilite .gc{color:#999;background-color:#EAF2F5}
+</style><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+MathJax.Hub.Config({
+  config: ["MMLorHTML.js"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX"],
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: false
+  },
+  TeX: {
+    extensions: ["AMSmath.js", "AMSsymbols.js"],
+    TagSide: "right",
+    TagIndent: ".8em",
+    MultLineWidth: "85%",
+    equationNumbers: {
+      autoNumber: "AMS",
+    },
+    unicode: {
+      fonts: "STIXGeneral,'Arial Unicode MS'"
+    }
+  },
+  showProcessingMessages: false
+});
+</script>
+<title>leveldb</title></head><body><article class="markdown-body"><div class="toc">
+<ul>
+<li><a href="#_1">纸上得来终觉浅，绝知此事要躬行</a><ul>
+<li><a href="#_2">初试牛刀</a></li>
+</ul>
+</li>
+<li><a href="#_3">下面记录一些值得注意的地方</a><ul>
+<li><a href="#1-includeleveldbsliceh-datac_str">1. include/leveldb/slice.h  data()和c_str()</a></li>
+<li><a href="#2-includeleveldboptionsh">2. include/leveldb/options.h</a></li>
+<li><a href="#3-includeleveldbstatush-utilstatuscc">3. include/leveldb/status.h util/status.cc</a></li>
+<li><a href="#4-includeleveldbcomparatorh-utilcomparatorcc">4. include/leveldb/comparator.h  util/comparator.cc</a></li>
+<li><a href="#5-includeleveldbwrite_batchh-dbwrite_batchcc">5. include/leveldb/write_batch.h  db/write_batch.cc</a></li>
+<li><a href="#6-utilcodingh-utilcodingcc">6. util/coding.h  util/coding.cc</a><ul>
+<li><a href="#varint">Varint编码</a></li>
+<li><a href="#varint_1">varint解码</a></li>
+</ul>
+</li>
+<li><a href="#7skiplist">7.SkipList</a></li>
+<li><a href="#8cachehcc">8.cache.{h,cc}</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<h1 id="_1"><a name="user-content-_1" href="#_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>纸上得来终觉浅，绝知此事要躬行</h1>
+<p>本项目基本就是重新敲一遍源码，加上一些注释和修改某些函数的实现方式，功能保持不变，目的就是学习大神们如何设计及编写出优秀的代码。</p>
+<hr />
+<h2 id="_2"><a name="user-content-_2" href="#_2" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>初试牛刀</h2>
+<blockquote>
+<p>据leveldb的设计可知，leveldb适合<code>写</code>操作多于<code>读</code>操作的应用场合，即写的效率高于读的效率，顺序读取的效率高于随机读取的效率。</p>
+</blockquote>
+<ol>
+<li>编译源码，只需在包含makefile文件的目录下执行make命令即可，很顺利编译完成。</li>
+<li>写一个程序(<code>test.cc</code>)使用该库，代码如下：</li>
+</ol>
+<p><div class="codehilite"><pre><span class="cp">#include &lt;include/leveldb/db.h&gt;</span>
+<span class="cp">#include &lt;string.h&gt;</span>
+<span class="cp">#include &lt;assert.h&gt;</span>
+<span class="cp">#include &lt;iostream&gt;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">leveldb</span><span class="o">::</span><span class="n">DB</span><span class="o">*</span> <span class="n">db</span><span class="p">;</span>
+    <span class="n">leveldb</span><span class="o">::</span><span class="n">Options</span> <span class="n">options</span><span class="p">;</span>
+    <span class="n">options</span><span class="p">.</span><span class="n">create_if_missing</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span><span class="nl">cy_test</span><span class="p">:</span> <span class="n">test</span><span class="p">.</span><span class="n">o</span> <span class="err">$</span><span class="p">(</span><span class="n">LIBOBJECTS</span><span class="p">)</span> <span class="err">$</span><span class="p">(</span><span class="err">```</span><span class="n">language</span>
+    <span class="n">code</span>
+    <span class="err">```</span><span class="n">TESTHARNESS</span><span class="p">)</span>
+    <span class="n">leveldb</span><span class="o">::</span><span class="n">Status</span> <span class="n">status</span> <span class="o">=</span> <span class="n">leveldb</span><span class="o">::</span><span class="n">DB</span><span class="o">::</span><span class="n">Open</span><span class="p">(</span><span class="n">options</span><span class="p">,</span><span class="s">&quot;/tmp/test&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">db</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">ok</span><span class="p">());</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span><span class="o">=</span><span class="s">&quot;vic&quot;</span><span class="p">;</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">value</span> <span class="o">=</span> <span class="s">&quot;666&quot;</span><span class="p">;</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="n">db</span><span class="o">-&gt;</span><span class="n">Put</span><span class="p">(</span><span class="n">leveldb</span><span class="o">::</span><span class="n">WriteOptions</span><span class="p">(),</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">ok</span><span class="p">());</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="n">db</span><span class="o">-&gt;</span><span class="n">Get</span><span class="p">(</span><span class="n">leveldb</span><span class="o">::</span><span class="n">ReadOptions</span><span class="p">(),</span> <span class="n">key</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+    <span class="n">assert</span><span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">ok</span><span class="p">());</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">key</span> <span class="o">&lt;&lt;</span><span class="s">&quot;&#39;s value is:&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">value</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+    <span class="k">delete</span> <span class="n">db</span><span class="p">;</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<br />
+3. 编译该测试程序，我觉得最简单的方法就是修改原makefile文件，新增一个目标对象即可。例如，新增cy_test目标对象:</p>
+<p><div class="codehilite"><pre><span class="n">cy_test</span><span class="o">:</span> <span class="n">test</span><span class="o">.</span><span class="na">o</span> <span class="n">$</span><span class="o">(</span><span class="n">LIBOBJECTS</span><span class="o">)</span> <span class="n">$</span><span class="o">(</span><span class="n">TESTHARNESS</span><span class="o">)</span>
+    <span class="n">$</span><span class="o">(</span><span class="n">CXX</span><span class="o">)</span> <span class="n">$</span><span class="o">(</span><span class="n">LDFLAGS</span><span class="o">)</span> <span class="n">test</span><span class="o">.</span><span class="na">o</span> <span class="n">$</span><span class="o">(</span><span class="n">LIBOBJECTS</span><span class="o">)</span> <span class="n">$</span><span class="o">(</span><span class="n">TESTHARNESS</span><span class="o">)</span> <span class="o">-</span><span class="n">o</span> <span class="n">$</span><span class="err">@</span> <span class="n">$</span><span class="o">(</span><span class="n">LIBS</span><span class="o">)</span>
+</pre></div>
+<br />
+输入<code>make cy_test</code>后运行<code>./cy_test</code>得到结果：<code>vic's value is:666</code></p>
+<hr />
+<h1 id="_3"><a name="user-content-_3" href="#_3" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>下面记录一些值得注意的地方</h1>
+<h4 id="1-includeleveldbsliceh-datac_str"><a name="user-content-1-includeleveldbsliceh-datac_str" href="#1-includeleveldbsliceh-datac_str" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>1. include/leveldb/slice.h  data()和c_str()</h4>
+<p>作者在Slice中的构造函数上使用string的成员函数<code>data()</code>将<code>string</code>转换成<code>char *</code>：</p>
+<blockquote>
+<div class="codehilite"><pre><span class="k">class</span> <span class="n">Slice</span> {
+ <span class="n">public:</span>
+  ...
+  // <span class="n">Create</span> <span class="n">a</span> <span class="n">slice</span> <span class="n">that</span> <span class="n">refers</span> <span class="nb">to</span> <span class="n">the</span> <span class="n">contents</span> <span class="k">of</span> <span class="s">&quot;s&quot;</span>
+  <span class="n">Slice</span>(<span class="n">const</span> <span class="n">std::string</span>&amp; <span class="o">s</span>) : <span class="n">data_</span>(<span class="o">s</span>.<span class="n">data</span>()), <span class="n">size_</span>(<span class="o">s</span>.<span class="n">size</span>()) { }
+  ...
+</pre></div>
+
+
+</blockquote>
+<p>c++98标准中关于data()有这样一段话：</p>
+<blockquote>
+<p>Accessing the value at data()+size() produces undefined behavior: There are no guarantees that a null character terminates the character sequence pointed by the value returned by this function.</p>
+</blockquote>
+<p>通俗点说，data()转换后的字符数组结尾不保证有终结符<code>'\0'</code>，标准只是没有要求一定要有<code>'\0'</code>，不代表一定没有<code>'\0'</code>，不同的编译器可能得的结果不同，准确地说，这里的不同的编译器其实是指不同的<code>C++ STL</code>版本。</p>
+<p>不过，这一问题在C++11标准中得到了解决，data()转换后的字符数组以&rsquo;\0&rsquo;结尾，同c_str()一样，原文描述如下：</p>
+<blockquote>
+<p>Returns a pointer to an array that contains a null-terminated sequence of characters (i.e., a C-string) representing the current value of the string object.<br />
+This array includes the same sequence of characters that make up the value of the string object plus an additional terminating null-character (&lsquo;\0&rsquo;) at the end.</p>
+</blockquote>
+<hr />
+<h4 id="2-includeleveldboptionsh"><a name="user-content-2-includeleveldboptionsh" href="#2-includeleveldboptionsh" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>2. include/leveldb/options.h</h4>
+<p>在<code>options.h</code>文件中，作用通过声明的方式来使用其他文件中对应的类，如下所示：<br />
+<div class="codehilite"><pre><span class="cp">#include &lt;stddef.h&gt;</span>
+<span class="k">namespace</span> <span class="n">leveldb</span> <span class="p">{</span>
+    <span class="k">class</span> <span class="nc">FilterPolicy</span><span class="p">;</span>
+    <span class="k">class</span> <span class="nc">Cache</span><span class="p">;</span>
+</pre></div>
+<br />
+我修改如下，显示地引入头文件，注释了类的声明。<br />
+<div class="codehilite"><pre><span class="cp">#include &lt;stddef.h&gt;</span>
+<span class="cp">#include &quot;filter_policy.h&quot;</span>
+<span class="k">namespace</span> <span class="n">leveldb</span> <span class="p">{</span>
+    <span class="c1">// class FilterPolicy;</span>
+    <span class="k">class</span> <span class="nc">Cache</span><span class="p">;</span>
+</pre></div>
+</p>
+<p>上述的做法本质是相同的，通过宏指令<code>#include</code>显示地把需要的头文件包含进来，这些头文件会在<code>预处理阶段</code>被编译器替换成相应的代码。</p>
+<p>若不使用<code>#include</code>，只需显示地给出需要用到的类声明即可。 那么，预处理阶段没有找到类的实现代码，但它不会报错，它默认认为这该类在其他文件中给出了定义，此处会增加标记告诉编译器此符号未定义，需要在<code>链接阶段</code>找到它的定义，从哪找？从参与链接<code>目标文件</code>中取找，怎么找？遍历目标文件的符号表(Linux中目标文件的格式是<code>ELF</code>，符号表是ELF文件中的一个<code>entry</code>)。</p>
+<blockquote>
+<p><a href="">挖坑:</a>整理一下编译器的工作过程-&gt;链接的过程-&gt;ELF文件的格式(2种，可链接可执行的和可执行的)-&gt;ELF格式为何要这样设计?(联系虚存的中各种area，方便加载到虚存中)-&gt;虚拟内存相关知识。)</p>
+</blockquote>
+<p>最终编译出的库是完全一样的，我觉得各有千秋：<br />
+- <code>#include</code>的方法缩短编译时间，避免了<code>链接阶段</code>的遍历；<br />
+- 而通过声明的方式是减少了编程人员的工作，避免了头文件重复引用的问题。</p>
+<h4 id="3-includeleveldbstatush-utilstatuscc"><a name="user-content-3-includeleveldbstatush-utilstatuscc" href="#3-includeleveldbstatush-utilstatuscc" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>3. include/leveldb/status.h util/status.cc</h4>
+<p>在 <code>status.h</code>中，有一些成员函数，如：<br />
+<div class="codehilite"><pre><span class="c1">// Return error status of an appropriate type.</span>
+  <span class="k">static</span> <span class="n">Status</span> <span class="nf">NotFound</span><span class="p">(</span><span class="k">const</span> <span class="n">Slice</span><span class="o">&amp;</span> <span class="n">msg</span><span class="p">,</span> <span class="k">const</span> <span class="n">Slice</span><span class="o">&amp;</span> <span class="n">msg2</span> <span class="o">=</span> <span class="n">Slice</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">Status</span><span class="p">(</span><span class="n">kNotFound</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msg2</span><span class="p">);</span>
+  <span class="p">}</span>
+</pre></div>
+<br />
+调用了自定义的有参构造函数，该构造函数的定义如下：<br />
+<div class="codehilite"><pre><span class="p">...</span>
+<span class="n">Status</span><span class="p">(</span><span class="n">Code</span> <span class="n">code</span><span class="p">,</span> <span class="k">const</span> <span class="n">Slice</span><span class="o">&amp;</span> <span class="n">msg</span><span class="p">,</span> <span class="k">const</span> <span class="n">Slice</span><span class="o">&amp;</span> <span class="n">msg2</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">assert</span><span class="p">(</span><span class="n">code</span> <span class="o">!=</span> <span class="n">kOk</span><span class="p">);</span>
+  <span class="k">const</span> <span class="kt">uint32_t</span> <span class="n">len1</span> <span class="o">=</span> <span class="n">msg</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+  <span class="k">const</span> <span class="kt">uint32_t</span> <span class="n">len2</span> <span class="o">=</span> <span class="n">msg2</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
+  <span class="k">const</span> <span class="kt">uint32_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">len1</span> <span class="o">+</span> <span class="p">(</span><span class="n">len2</span> <span class="o">?</span> <span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">len2</span><span class="p">)</span> <span class="o">:</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="kt">char</span><span class="o">*</span> <span class="n">result</span> <span class="o">=</span> <span class="n">new</span> <span class="kt">char</span><span class="p">[</span><span class="n">size</span> <span class="o">+</span> <span class="mi">5</span><span class="p">];</span>
+  <span class="n">memcpy</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">size</span><span class="p">));</span>
+  <span class="n">result</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="n">static_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="p">(</span><span class="n">code</span><span class="p">);</span>
+  <span class="n">memcpy</span><span class="p">(</span><span class="n">result</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">msg</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">len1</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">len2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">result</span><span class="p">[</span><span class="mi">5</span> <span class="o">+</span> <span class="n">len1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39;:&#39;</span><span class="p">;</span>
+    <span class="n">result</span><span class="p">[</span><span class="mi">6</span> <span class="o">+</span> <span class="n">len1</span><span class="p">]</span> <span class="o">=</span> <span class="sc">&#39; &#39;</span><span class="p">;</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="n">result</span> <span class="o">+</span> <span class="mi">7</span> <span class="o">+</span> <span class="n">len1</span><span class="p">,</span> <span class="n">msg2</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span> <span class="n">len2</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="n">state_</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span>
+</pre></div>
+<br />
+在msg是用户自定义的错误描述字符串，用法如下：<br />
+<div class="codehilite"><pre><span class="p">...</span>
+<span class="k">return</span> <span class="n">Status</span><span class="o">::</span><span class="n">NotFound</span><span class="p">(</span><span class="s">&quot;in-memory file skipped past end&quot;</span><span class="p">);</span>
+<span class="p">...</span>
+</pre></div>
+<br />
+看到这里，有一点不太明白: 既然<code>msg</code>是自定义的错误描述信息，那么<code>msg2</code>的存在意义是什么呢？</p>
+<h4 id="4-includeleveldbcomparatorh-utilcomparatorcc"><a name="user-content-4-includeleveldbcomparatorh-utilcomparatorcc" href="#4-includeleveldbcomparatorh-utilcomparatorcc" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>4. include/leveldb/comparator.h  util/comparator.cc</h4>
+<p>对key排序时使用的比较方法。默认为升序。</p>
+<h4 id="5-includeleveldbwrite_batchh-dbwrite_batchcc"><a name="user-content-5-includeleveldbwrite_batchh-dbwrite_batchcc" href="#5-includeleveldbwrite_batchh-dbwrite_batchcc" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>5. include/leveldb/write_batch.h  db/write_batch.cc</h4>
+<p>对若干数目 key 的 write 操作(put/delete)封装成 WriteBatch</p>
+<h4 id="6-utilcodingh-utilcodingcc"><a name="user-content-6-utilcodingh-utilcodingcc" href="#6-utilcodingh-utilcodingcc" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>6. util/coding.h  util/coding.cc</h4>
+<p>为了节省空间，原作者设计了一种变长编码方式来表示整型：varint。越小的数字所用的字节数越少。</p>
+<h5 id="varint"><a name="user-content-varint" href="#varint" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>Varint编码</h5>
+<p>一般int需要3-byte来表示一个整数，varint使用的变长编码的方式和utf-8编码的方法本质上是一样的，下面表示的一个3字节的utf8编码：<br />
+&lsquo;&rsquo;&lsquo; 1110xxxx 10xxxxxx 10xxxxxx <code>``
+第一字节中的从最高位开始，有连续几个</code>1<code>就表示该字符有几个字节，后面的每一字节都以</code>10`开头。</p>
+<p>同样的道理，在varint变长编码中，如果每个字节的最高为1，表示后续的字节也是该数字的一部分；如果该位位0，则结束。<br />
+<div class="codehilite"><pre><span class="c1">// 变长编码</span>
+<span class="c1">//</span>
+<span class="c1">// 每个数字用1到5个字节来编码，每个字节中的最高bit为标识位，</span>
+<span class="c1">// 剩下的7位用于表示数据</span>
+<span class="kt">char</span><span class="o">*</span> <span class="nf">EncodeVarint32</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Operate on characters as unsigneds</span>
+  <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ptr</span> <span class="o">=</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">dst</span><span class="p">);</span>
+  <span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">128</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">7</span><span class="p">))</span> <span class="p">{</span>             <span class="c1">// iff v &lt; 128 then encode with 1-byte</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">14</span><span class="p">))</span> <span class="p">{</span>     <span class="c1">// iff 128 &lt;= v &lt; 2^14 then ... 2-byte</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">21</span><span class="p">))</span> <span class="p">{</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">14</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">v</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">28</span><span class="p">))</span> <span class="p">{</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">14</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">21</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>                      <span class="c1">// encode with with 5-byte</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">14</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">21</span><span class="p">)</span> <span class="o">|</span> <span class="n">B</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">ptr</span><span class="o">++</span><span class="p">)</span> <span class="o">=</span> <span class="n">v</span><span class="o">&gt;&gt;</span><span class="mi">28</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kt">void</span> <span class="nf">PutVarint32</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">*</span> <span class="n">dst</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">char</span> <span class="n">buf</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+</pre></div>
+</p>
+<h5 id="varint_1"><a name="user-content-varint_1" href="#varint_1" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>varint解码</h5>
+<p><div class="codehilite"><pre><span class="kr">inline</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="nf">GetVarint32Ptr</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span>
+                                  <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">limit</span><span class="p">,</span>
+                                  <span class="kt">uint32_t</span><span class="o">*</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">p</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 非const转换成const</span>
+    <span class="kt">uint32_t</span> <span class="n">result</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+    <span class="c1">// 只有一个字节</span>
+    <span class="k">if</span> <span class="p">((</span><span class="n">result</span> <span class="o">&amp;</span> <span class="mi">128</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="o">*</span><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">p</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// 多字节解码</span>
+  <span class="k">return</span> <span class="n">GetVarint32PtrFallback</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">limit</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<br />
+多字节解码函数<br />
+<div class="codehilite"><pre><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="nf">GetVarint32PtrFallback</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">p</span><span class="p">,</span>
+                                   <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">limit</span><span class="p">,</span>
+                                   <span class="kt">uint32_t</span><span class="o">*</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">uint32_t</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">shift</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">shift</span> <span class="o">&lt;=</span> <span class="mi">28</span> <span class="o">&amp;&amp;</span> <span class="n">p</span> <span class="o">&lt;</span> <span class="n">limit</span><span class="p">;</span> <span class="n">shift</span> <span class="o">+=</span> <span class="mi">7</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">byte</span> <span class="o">=</span> <span class="o">*</span><span class="p">(</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">));</span>
+    <span class="n">p</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="mi">128</span><span class="p">)</span> <span class="p">{</span>    <span class="c1">// 最高位位1，还有后续字节</span>
+      <span class="c1">// More bytes are present</span>
+      <span class="n">result</span> <span class="o">|=</span> <span class="p">((</span><span class="n">byte</span> <span class="o">&amp;</span> <span class="mi">127</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">shift</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+      <span class="n">result</span> <span class="o">|=</span> <span class="p">(</span><span class="n">byte</span> <span class="o">&lt;&lt;</span> <span class="n">shift</span><span class="p">);</span>
+      <span class="o">*</span><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="p">;</span>
+      <span class="k">return</span> <span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="k">const</span> <span class="kt">char</span><span class="o">*&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</p>
+<h4 id="7skiplist"><a name="user-content-7skiplist" href="#7skiplist" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>7.SkipList</h4>
+<p>当我们插入的记录一条记录时，会先写log日志，然后将数据插入到memtable中，从名字也可以看出，memtable是在内存中的，当数据量到达一定量后再写到硬盘中，用sstable数据结构来组织数据的。</p>
+<p>memtable是利用有名的<code>SkipList</code>来组织数据的，它是由William Pugh在论文：Skip lists: a probabilistic alternative to balanced trees中提出。下面的gif很形象的展示了skiplist的结构和查询/插入的过程，每个节点的level是随机生成的，动图中的<code>coin flip</code>展示了这一过程。一图胜千言。图片摘自[wiki] (<a href="https://en.wikipedia.org/wiki/Skip_list">https://en.wikipedia.org/wiki/Skip_list</a>)<br />
+<img alt="skiplist" src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Skip_list_add_element-en.gif" /></p>
+<h4 id="8cachehcc"><a name="user-content-8cachehcc" href="#8cachehcc" class="headeranchor-link" aria-hidden="true"><span class="headeranchor"></span></a>8.cache.{h,cc}</h4></article></body></html>

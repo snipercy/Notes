@@ -1,4 +1,7 @@
+[TOC]
+
 # 纸上得来终觉浅，绝知此事要躬行
+
 本项目基本就是重新敲一遍源码，加上一些注释和修改某些函数的实现方式，功能保持不变，目的就是学习大神们如何设计及编写出优秀的代码。
 
 ---
@@ -17,7 +20,7 @@
 int main(){
     leveldb::DB* db;
     leveldb::Options options;
-    options.create_if_missing = true;cy_test: test.o $(LIBOBJECTS) $(TESTHARNESS)
+    options.create_if_missing = true;
     leveldb::Status status = leveldb::DB::Open(options,"/tmp/test", &db);
     assert(status.ok());
 
@@ -48,7 +51,7 @@ cy_test: test.o $(LIBOBJECTS) $(TESTHARNESS)
 #### 1. include/leveldb/slice.h  data()和c_str()
 
 作者在Slice中的构造函数上使用string的成员函数`data()`将`string`转换成`char *`：
->
+
 ```
 class Slice {
  public:
