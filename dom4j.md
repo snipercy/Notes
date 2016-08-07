@@ -15,10 +15,10 @@
 ##  DOM 对象创建
 
 - 通过 *.xml 文件创建
- ``` java
+``` java
 SAXReader reader = new SAXReader();
 Document doc = reader.read(new File("input.xlm"));
- ```
+```
 
 - 通过字符串转化
  ``` java
@@ -37,8 +37,15 @@ Document doc = DocumentHelper.parseText(text);
 - 根节点
 ```java Element root = doc.getRootElement(); ```
 
+- 取节点
+
 - 取节点(单个)
-```java Element memberEle = root.element("member"); // member 是节点名 ```
+``` java 
+
+Element memberEle = root.element("member"); // member 是节点名 
+
+elm.selectObject("queue[@name='renter_1']");
+```
 
 - 取节点(多个)
 > 取某节点下名为“member” 的**所有**子节点并遍历(```root.elemets("..."))
@@ -50,6 +57,9 @@ for (Iterator it = nodes.iterator(); it.hasNext();) {
 	// do something
 }
 ```
+
+- 父节点
+``` elm.getParent() ```
 
 - 取Text (```.getText()```)
 > 去节点中的内容
@@ -93,8 +103,12 @@ Attribute attr = root.atti
 
 // 获取属性文字
 String text = attr.getText();
+
 // or
 String text2=root.element("name").attributeValue("firstname");
+
+// 修改某属性的值
+note.element("maxResource").setText("1024mb,1vcores");
 
 // 添加(.addAttribute)
 root.addAttribute("name", "cy");

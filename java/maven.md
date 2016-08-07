@@ -8,9 +8,21 @@ mvn archetype:generate -DgroupId=com.mycompany.helloworld -DartifactId=helloworl
 mvn package 
 
 java -cp target/helloworld-1.0-SNAPSHOT.jar com.mycompany.helloworld.App
+or
+$ mvn exec:java -Dexec.mainClass="com.mycompany.helloworld.App"
+
+// maven 上级pom.xml查看： mvn help:effective-pom
 ```
 
-## 核心概念
+## Maven 约定的原则：
+- 源代码应该位于 ${basedir}/src/main/java 路径下
+- 资源文件：${bashdir}/src/test
+- 测试文件：${bashdir}/src/main/resources
+- 编译生成的class: ${bashdir}/target/classes
+- jar文件：${bashdir}/target/
+
+
+## 核心概念i
 - POM (Project Object Model)
 - Maven 插件
 - Maven 生命周期
