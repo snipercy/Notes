@@ -4,8 +4,6 @@
 
 本项目基本就是重新敲一遍源码，加上一些注释和修改某些函数的实现方式，功能保持不变，目的就是学习大神们如何设计及编写出优秀的代码。
 
----
-
 ## 初试牛刀
 > 据leveldb的设计可知，leveldb适合`写`操作多于`读`操作的应用场合，即写的效率高于读的效率，顺序读取的效率高于随机读取的效率。
 
@@ -39,20 +37,19 @@ int main(){
 ```
 3. 编译该测试程序，我觉得最简单的方法就是修改原makefile文件，新增一个目标对象即可。例如，新增cy_test目标对象:
 
-```
+```shell
 cy_test: test.o $(LIBOBJECTS) $(TESTHARNESS)
     $(CXX) $(LDFLAGS) test.o $(LIBOBJECTS) $(TESTHARNESS) -o $@ $(LIBS)
 ```
 输入`make cy_test`后运行`./cy_test`得到结果：`vic's value is:666`
 
-------
 # 下面记录一些值得注意的地方
 
 #### 1. include/leveldb/slice.h  data()和c_str()
 
 作者在Slice中的构造函数上使用string的成员函数`data()`将`string`转换成`char *`：
 
-```
+```c++
 class Slice {
  public:
   ...
@@ -70,8 +67,6 @@ c++98标准中关于data()有这样一段话：
 > 
 Returns a pointer to an array that contains a null-terminated sequence of characters (i.e., a C-string) representing the current value of the string object.
 This array includes the same sequence of characters that make up the value of the string object plus an additional terminating null-character ('\0') at the end.
-
------
 
 #### 2. include/leveldb/options.h
 
@@ -111,7 +106,7 @@ namespace leveldb {
   }
 ```
 调用了自定义的有参构造函数，该构造函数的定义如下：
-```c
+```c++
 ...
 Status(Code code, const Slice& msg, const Slice& msg2) {
   assert(code != kOk);
@@ -152,7 +147,7 @@ return Status::NotFound("in-memory file skipped past end");
 为了节省空间，原作者设计了一种变长编码方式来表示整型：varint。越小的数字所用的字节数越少。
 ##### Varint编码
 一般int需要3-byte来表示一个整数，varint使用的变长编码的方式和utf-8编码的方法本质上是一样的，下面表示的一个3字节的utf8编码：
-''' 1110xxxx 10xxxxxx 10xxxxxx ```
+``` 1110xxxx 10xxxxxx 10xxxxxx ```
 第一字节中的从最高位开始，有连续几个`1`就表示该字符有几个字节，后面的每一字节都以`10`开头。
 
 同样的道理，在varint变长编码中，如果每个字节的最高为1，表示后续的字节也是该数字的一部分；如果该位位0，则结束。
@@ -242,3 +237,4 @@ memtable是利用有名的`SkipList`来组织数据的，它是由William Pugh�
 
 #### 8.cache.{h,cc}
 
+dff
