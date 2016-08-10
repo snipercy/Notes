@@ -46,11 +46,11 @@ Service: imap/bar.foo.com@FOO.COM
 
 ## Kerberos 如何工作
 
-Kerberos的认证过有点复杂，要给它说明白不是一件容易的事。所以，在本节中我们先介绍一个简单Authentication例子，
+~~Kerberos的认证过有点复杂，要给它说明白不是一件容易的事。所以，在本节中我们先介绍一个简单Authentication例子，
 可以认为它是以简版的kerseros。希望通过分析简版kerseros可以让我们理解kerberos的本质，然后分析简版Kerberos的
-不足之处，从而引入真正的kerberos。~~当然，高手可以跳过，选择性的看就好。~~
+不足之处，从而引入真正的kerberos。当然，高手可以跳过，选择性的看就好。~~
 
-简版的问题：如何获取session key ---》 引入了kdc
+~~简版的问题：如何获取session key ---》 引入了kdc~~
 
 ### 1. Authentication
 该步骤的目的：证明你就是你
