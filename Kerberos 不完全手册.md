@@ -44,6 +44,8 @@ User: joe@FOO.COM
 Service: imap/bar.foo.com@FOO.COM
 ```
 
+- **keytab** ([ref](http://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html#keytab-definition)): stores long-term keys for one or more principals. Keytabs are used most often to allow server applications to accept authentications from clients, but can also be used to obtain initial credentials for client applications.
+
 ## Kerberos 如何工作
 
 ~~Kerberos的认证过有点复杂，要给它说明白不是一件容易的事。所以，在本节中我们先介绍一个简单Authentication例子，
@@ -124,3 +126,28 @@ shell%
 ```
 
 > the “service principal” describes each ticket. The ticket-granting ticket has a first component krbtgt, and a second component which is the realm name
+
+## 安装 KDCs
+
+> [do-build](http://web.mit.edu/kerberos/krb5-latest/doc/build/doing_build.html#do-build)
+
+按照官方文档的建议，当你将 Kerberos 用于生产环境时，it is best to have multiple slave KDCs alongside with a master KDC to ensure the continued availability of the Kerberized services. 
+>
+master KDC contains  writable realm databse, slave 会每隔一段时间更新本地db（只读的）
+
+ All database changes (such as password changes) are made on the master KDC.
+  Slave KDCs provide Kerberos ticket-granting services, but not database administration, when the master KDC is unavailable. 
+
+> 
+**Warning**
+1. 节点间时间要同步
+2. 确保按照 KDCs 节点的安全
+
+步骤：
+
+- 下载并解压好源码
+- path/src/configure
+- make
+- make install   or  make install DESTDIR=/path/to/destdir
+- make check
+
