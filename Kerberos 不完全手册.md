@@ -1,4 +1,4 @@
-Kerberos 不完全手册之原理篇
+Kerberos 不完全手册之原理篇  [未完。。。]
 ======
 [TOC]
 
@@ -67,3 +67,60 @@ Kerberos 服务(kerberos官网)是一种通过网络提供安全验证处理的�
 
 
 
+
+tips: 
+##  password management
+
+## 1. 修改密码
+
+```shell
+shell% kpasswd
+Password for david:    <- Type your old password.
+Enter new password:    <- Type your new password.
+Enter it again:  <- Type the new password again.
+Password changed.
+shell%
+```
+
+修改密码后需要注意，一旦密码修改后，同步整个集群的信息需要花一些时间。
+> If you need to get new Kerberos tickets shortly after changing your password, try the new password. If the new password doesn’t work, try again using the old one.
+
+## 2. Granting access to your account
+
+可以将我们的权限转给别人用，而不用将密码给别人，通过再家目录创建/配置 .k5login 即可，例子：
+```
+ycheng@SCH.STM.EDU
+jack@EXAMPLE.COM
+```
+This file would allow the users jennifer and david to use your user ID, provided that they had Kerberos tickets in their respective realms. If you will be logging into other hosts across a network, you will want to include your own Kerberos principal in your .k5login file on each of these hosts.
+
+### 3. .k5login
+
+
+
+
+##  Tick management
+
+- 生成 ticket 
+
+``` shell
+shell% kinit -f -l 3h david@EXAMPLE.COM
+Password for david@EXAMPLE.COM: <-- [Type david's password here.]
+shell%
+```
+
+第一次生成的就是 TGT 
+
+- 查看 tickets
+
+``` shell
+shell% klist
+Ticket cache: /tmp/krb5cc_ttypa
+Default principal: jennifer@ATHENA.MIT.EDU
+
+Valid starting     Expires            Service principal
+06/07/04 19:49:21  06/08/04 05:49:19  krbtgt/ATHENA.MIT.EDU@ATHENA.MIT.EDU
+shell%
+```
+
+> the “service principal” describes each ticket. The ticket-granting ticket has a first component krbtgt, and a second component which is the realm name
