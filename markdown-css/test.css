@@ -122,8 +122,8 @@ a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
 blockquote{
     color:#666666;
     margin:0;
-    padding-left: 3em;
-    border-left: 0.5em #EEE solid;
+    padding-left: 1em;
+    border-left: 0.3em #EEE solid;
     border-color: green;
 }
  
