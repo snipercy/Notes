@@ -143,11 +143,44 @@ master KDC contains  writable realm databse, slave 会每隔一段时间更新�
 1. 节点间时间要同步
 2. 确保按照 KDCs 节点的安全
 
-步骤：
+方法一: **源码安装**：
 
 - 下载并解压好源码
 - path/src/configure
 - make
 - make install   or  make install DESTDIR=/path/to/destdir
 - make check
+
+方法二: **二进制文件安装**:
+
+```shell
+# 安装 server 端
+yum install krb5-server krb5-libs krb5-auth-dialog 
+
+# 安装 client 端
+yum install krb5-workstation krb5-libs krb5-auth-dialog
+
+# 修改配置文件 /etc/krb5.conf  /Users/cy/github/Notes/markdown-css
+
+# 创建/初始化 Kerberos database
+/usr/sbin/kdb5_util create -s 
+
+# 添加 database 管理员
+/usr/sbin/kadmin.local -q "chengy admin/admin"
+
+# 设置 ACL 
+echo */admin@EXAMPLE.COM     * >> /var/kerberos/krb5kdc/kadm5.acl
+
+# 启动
+/sbin/chkconfig krb5kdc on   # 开机自启动
+/sbin/chkconfig kadmin on 	 # 开机自自动
+# OR 手动自动
+/etc/rc.d/init.d/krb5kdc start
+/etc/rc.d/init.d/kamdin start
+
+# 检查是否正常工作
+kinit admin/admin@EXAMPLE.COM   # 需输入密码
+klist 
+```
+
 
