@@ -1,4 +1,4 @@
-Kerberos V5 不完全手册之原理篇  [未完。。。]
+Kerberos V5 不完全手册
 ======
 [TOC]
 
@@ -48,51 +48,50 @@ Service: imap/bar.foo.com@FOO.COM
     + Client/server会话密钥（session key）: 一个短期的、单此会话的密钥，是在用户的身份和权限已经被确认后由KDC建立的用于这个用户的跟某个服务器之间的加密往来信息使用的密钥
     + KDC/用户 会话密钥（session key）: 是KDC跟用户共享的一个密钥，被用于加密这个用户跟KDC之间的消息。
 
-## Kerberos 原理简介
+# Kerberos 原理简介
 
-图：。。。
+1. Kerberos原理-验证过程：
+![tgt](I:\\git\\Notes\\image\\tgt.jpg)
 
-**解决的Hadoop安全认证问题**
+2. Kerberos原理-认证过程：
+![tgs](I:\\git\\Notes\\image\\tgs.jpg)
+<t style="color:grey">(对应上图中client与service通信过程)</t>
+
+>
+（1）Client将之前获得TGT和要请求的服务信息(服务名等)发送给KDC，KDC中的Ticket Granting Service将为Client和Service之间生成一个Session Key用于Service对Client的身份鉴别。然后KDC将这个Session Key和用户名，用户地址（IP），服务名，有效期, 时间戳一起包装成一个Ticket(这些信息最终用于Service对Client的身份鉴别)发送给Service， 不过Kerberos协议并没有直接将Ticket发送给Service，而是通过Client转发给Service，所以有了第二步。
+（2）此时KDC将刚才的Ticket转发给Client。由于这个Ticket是要给Service的，不能让Client看到，所以KDC用协议开始前KDC与Service之间的密钥将Ticket加密后再发送给Client。同时为了让Client和Service之间共享那个密钥(KDC在第一步为它们创建的Session Key)，KDC用Client与它之间的密钥将Session Key加密随加密的Ticket一起返回给Client。
+（3）为了完成Ticket的传递，Client将刚才收到的Ticket转发到Service. 由于Client不知道KDC与Service之间的密钥，所以它无法算改Ticket中的信息。同时Client将收到的Session Key解密出来，然后将自己的用户名，用户地址（IP）打包成Authenticator用Session Key加密也发送给Service。
+（4）Service 收到Ticket后利用它与KDC之间的密钥将Ticket中的信息解密出来，从而获得Session Key和用户名，用户地址（IP），服务名，有效期。然后再用Session Key将Authenticator解密从而获得用户名，用户地址（IP）将其与之前Ticket中解密出来的用户名，用户地址（IP）做比较从而验证Client的身份。
+（5）如果Service有返回结果，将其返回给Client。
+
+
+# 解决的Hadoop安全认证问题
 
 先对集群中确定的机器由管理员手动添加到kerberos数据库中(addprinc node1)，在KDC上分别产生主机与各个节点的keytab(包含了host和对应节点的名字，还有他们之间的密钥，ktadd -k a.keytab principal)，并将这些keytab分发到对应的节点上。通过这些 keytab 文件，节点可以从KDC上获得与目标节点通信的密钥，进而被目标节点所认证，提供相应的服务，防止了被冒充的可能性。
 
-### 1. Authentication
-该步骤的目的：证明你就是你
-如何证明：
-clinet 和 server 共享一个CSKey
-a. client 向 server 发送两自己的身份信息，一组用CSKey加密过数据A和一组是未加密数据B
-b. server 端用 CSKey 解密数据A，并与未加密的数据B进行比较，相同则认证成功。
+**如何保证安全**
 
-### 2. Authorization
+1. kerberos 的安全是建立在主机都是安全的而网络不是安全的假定之上的。所以kerberos的安全其实就在于把主机的安全做好；尤其是KDC那台机器的安全。出于安全的考虑，跑KDC的机器上不能再跑别的服务，如果KDC被攻陷了，那么所有的密码就全部泄露了；
 
-在Kerberos系统中，客户端和服务器都有一个唯一的名字，叫做Principal。同时，客户端和服务器都有自己的密码，并且它们的密码只有自己和认证服务器AS知道。
+2. 如果只是服务的机器被攻陷了，那么需要更改服务的 principal 的密码；
 
-Kerberos 服务(kerberos官网)是一种通过网络提供安全验证处理的客户机/服务器体系结构。通过验证，可保证网络事务的发送者和接收者的身份真实。该服务还可以检验来回传递的数据的有效性（完整性），并在传输过程中对数据进行加密（保密性）。使用 Kerberos 服务，可以安全登录到其他计算机、执行命令、交换数据以及传输文件。此外，该服务还提供授权服务，这样，管理员便可限制对服务和计算机的访问。而且，作为 Kerberos 用户，您还可以控制其他用户对您帐户的访问。
+3. 如果是用户的机器被攻陷了，那么在 ticket 超时（一般是数小时的时间里）之前，用户都是不安全的，攻击者还有可能尝试反向用户的密码；
 
-.......
-
-## 如何保证安全
+4. Kerberos依赖其它的服务来存放用户信息（登录shell、UID、GID啥的），因此需要注意到这些信息依然是很容易遭受攻击并且泄露的；
 
 
-- kerberos \^1 的安全是建立在主机都是安全的而网络不是安全的假定之上的。所以kerberos的安全其实就在于把主机的安全做好；
+**TIPS**
 
-- 尤其是KDC那台机器的安全。出于安全的考虑，跑KDC的机器上不能再跑别的服务，如果KDC被攻陷了，那么所有的密码就全部泄露了；
+1. (中间人攻击)由于任何人都可以向KDC请求任何用户的TGT（使用用户密码加密的session key），那么攻击者就有可能请求一个这样的包下来尝试解密，他们有充足的时间离线去做这个工作，一旦解开了，他们也就拿到了用户的密码。简单密码几乎一解就开，所以不能设置简单密码，也不能在字典里。另外还可以打开Kerberos的预验证机制来防御这种攻击，预验证机制就是在KDC收到用户请求TGT的请求之后，要求用户先发一个用自己密码加密的时间戳过来给KDC，KDC如果确实可以用自己存储的用户密码解密，才发TGT给用户，这样攻击者在没有用户密码的时候就拿不到可用于反向的包含用户密码的TGT包了。在MIT kerberos中在配置文件中default_principal_flags = + preauth可以打开这个机制。但这个机制也并不是无懈可击的，攻击者依然可以通过嗅探的方式在正常用户请求TGT时拿到上述的那个包（这个难度显然就高了一些）；
 
-- 如果只是服务的机器被攻陷了，那么更改服务的principal的密码即可；
+2. 攻击者可能伪造一个KDC，然后用一个伪造的实际不存在的用户向这个KDC请求验证，通过后他就得到了一个用户登录系统的 shell。这种攻击需要在客户端防御，需要客户端主动去验证一下KDC是否是正确的KDC。具体来说就是客户端在得到TGT后进一步要求KDC给一个本物理机的principal（也就是一个用物理机密钥加密的串），然后尝试用物理机存储的密码去解密，由于伪造的KDC没有物理机（host／hostname）的principal密码，所以它无法给出这个包，也就被客户端认定为是伪造的KDC，认证失败。这个机制需要在客户端开启（认证服务器端么），默认是关闭的，设置validate=true来开启；
 
-- 如果是用户的机器被攻陷了，那么在ticket超时（一般是数小时的时间里）之前，用户都是不安全的，攻击者还有可能尝试反向用户的密码；
+# 实战篇(杂)
+请参考官网手册或conference上相关手册
 
-- Kerberos依赖其它的服务来存放用户信息（登录shell、UID、GID啥的），因此需要注意到这些信息依然是很容易遭受攻击并且泄露的；
+password management
 
-- 由于任何人都可以向KDC请求任何用户的TGT（使用用户密码加密的session key），那么攻击者就有可能请求一个这样的包下来尝试解密，他们有充足的时间离线去做这个工作，一旦解开了，他们也就拿到了用户的密码。简单密码几乎一解就开，所以不能设置简单密码，也不能在字典里。另外还可以打开Kerberos的预验证机制来防御这种攻击，预验证机制就是在KDC收到用户请求TGT的请求之后，要求用户先发一个用自己密码加密的时间戳过来给KDC，KDC如果确实可以用自己存储的用户密码解密，才发TGT给用户，这样攻击者在没有用户密码的时候就拿不到可用于反向的包含用户密码的TGT包了。在MIT kerberos中在配置文件中default_principal_flags = + preauth可以打开这个机制。但这个机制也并不是无懈可击的，攻击者依然可以通过嗅探的方式在正常用户请求TGT时拿到上述的那个包（这个难度显然就高了一些）；
-
-- <t style="color: red;">还有一个问题是攻击者可能伪造一个KDC，然后用一个伪造的实际不存在的用户向这个KDC请求验证，通过后他就得到了一个用户登录系统的 shell。</t>这种攻击需要在客户端防御，需要客户端主动去验证一下KDC是否是正确的KDC。具体来说就是客户端在得到TGT后进一步要求KDC给一个本物理机的principal（也就是一个用物理机密钥加密的串），然后尝试用物理机存储的密码去解密，由于伪造的KDC没有物理机（host／hostname）的principal密码，所以它无法给出这个包，也就被客户端认定为是伪造的KDC，认证失败。这个机制需要在客户端开启（认证服务器端么），默认是关闭的，在nf里［appdefaults］章节里pam的部分中设置validate=true来开启；
-
-
-tips: 
-##  password management
-
-## 1. 修改密码
+1. 修改密码
 
 ```shell
 shell% kpasswd
@@ -106,7 +105,7 @@ shell%
 修改密码后需要注意，一旦密码修改后，同步整个集群的信息需要花一些时间。
 > If you need to get new Kerberos tickets shortly after changing your password, try the new password. If the new password doesn’t work, try again using the old one.
 
-## 2. Granting access to your account
+2. Granting access to your account
 
 可以将我们的权限转给别人用，而不用将密码给别人，通过再家目录创建/配置 .k5login 即可，例子：
 ```
@@ -115,24 +114,17 @@ jack@EXAMPLE.COM
 ```
 This file would allow the users jennifer and david to use your user ID, provided that they had Kerberos tickets in their respective realms. If you will be logging into other hosts across a network, you will want to include your own Kerberos principal in your .k5login file on each of these hosts.
 
-### 3. .k5login
 
-
-
-
-##  Tick management
-
-- 生成 ticket 
+3. 生成 ticket 
 
 ``` shell
 shell% kinit -f -l 3h david@EXAMPLE.COM
 Password for david@EXAMPLE.COM: <-- [Type david's password here.]
 shell%
 ```
-
 第一次生成的就是 TGT 
 
-- 查看 tickets
+4. 查看 tickets
 
 ``` shell
 shell% klist
@@ -146,31 +138,16 @@ shell%
 
 > the “service principal” describes each ticket. The ticket-granting ticket has a first component krbtgt, and a second component which is the realm name
 
-## 安装 KDCs
-
 > [do-build](http://web.mit.edu/kerberos/krb5-latest/doc/build/doing_build.html#do-build)
 
-按照官方文档的建议，当你将 Kerberos 用于生产环境时，it is best to have multiple slave KDCs alongside with a master KDC to ensure the continued availability of the Kerberized services. 
->
-master KDC contains  writable realm databse, slave 会每隔一段时间更新本地db（只读的）
-
- All database changes (such as password changes) are made on the master KDC.
-  Slave KDCs provide Kerberos ticket-granting services, but not database administration, when the master KDC is unavailable. 
-
-> 
-**Warning**
-1. 节点间时间要同步
-2. 确保按照 KDCs 节点的安全
-
-方法一: **源码安装**：
-
+~~**源码安装**：
 - 下载并解压好源码
 - path/src/configure
 - make
 - make install   or  make install DESTDIR=/path/to/destdir
-- make check
+- make check~~
 
-方法二: **二进制文件安装**:
+**二进制文件安装**:
 
 ```shell
 # 安装 server 端
