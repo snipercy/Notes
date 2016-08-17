@@ -1,39 +1,22 @@
-Kerberos 不完全手册之原理篇  [未完。。。]
+Kerberos V5 不完全手册之原理篇  [未完。。。]
 ======
 [TOC]
 
-## 什么是 Kerberos
+# 什么是 Kerberos
 >
 A commonly found description for Kerberos is "a secure, single sign on, trusted third party
 mutual authentication service". It doesn't store any information about UIDs, GIDs, or home's
 path. In order to propagate this information to hosts, you will eventually need yellow page
 services: NIS, LDAP, or Samba.
 
-说到安全就难免会想到3A认证，Kerberos 提供了是3A中的认证 (Authentication) 和授权(Authorization)服务。
+一个在客户端跟服务器端之间或者服务器与服务器之间的**身份验证协议**
 
-## Kerberos 使用场景
+在 Kerberos 协议验证用户的身份，它并不授权访问。验证通过会返回TGT，这个票据仅仅用来证明这个用户就是它自己声称的那个用户。在用户身份得以确认后，才可以去申请服务。
 
-1. 单点登陆。考虑这样一个场景，hadoop集群提供了多种服务，每种服务都有认证的
-的需求，不可能让每个服务器自己实现一套认证系统，~~bdoc(苏研的hadoop运营管理平台)
-就需要提供一个中心认证服务器供这些服务器使用~~。
+# 基础概念
 
-2. 服务的授权。~~ bdoc 主要是使用 Kerberos 提供服务的授权~~
+- **princals(安全个体):**被认证的个体，有一个名字和口令，客户端和服务器都有一个唯一的名字。 kerberos为kerberos principal分配tickets使其可以访问由kerberos加密的hadoop服务。 通常它长这样：`primary/instance@realm`，各个字段含义如下：
 
-## 基本概念
-这部分将简单介绍 安全协议中一般会用到的术语以及 Kerberos 协议定义的术语，后文再涉及到相关术语均使用缩写代替，也不再解释：
-
-- **3A认证**：
-    + **Authentication: 认证**，验证用户的身份与可使用的网络服务
-    + **Authorization: 授权**，依据认证结果开放网络服务给用户，`授权`是建立在`认证`的基础上，没有可靠的认证谈不上授权
-    + **Accounting: 审计**，记录用户对各种网络服务的用量，并提供给计费系统
-
-- **AS (Authentication Server): ** 认证服务器
-- **KDC(key distribution center ): ** 是一个网络服务，提供ticket 和临时会话密钥
-- **TSG(Ticket Granting Server):** 许可证服务器
-- **TGT(Ticket Granting Ticket):** 可理解为票据的票据
-- **Ticket:**一个记录，客户用它来向服务器证明自己的身份，包括客户标识、会话密钥、时间戳。
-- **realm:** The Kerberos administrative domain 
-- **princals(安全个体):**被认证的个体，有一个名字和口令，客户端和服务器都有一个唯一的名字。通常它长这样：`primary/instance@realm`，各个字段含义如下：
 ```
 primary: user or service name
 instance: optional for user principals, but required for service principals 
@@ -44,15 +27,34 @@ User: joe@FOO.COM
 Service: imap/bar.foo.com@FOO.COM
 ```
 
-- **keytab** ([ref](http://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html#keytab-definition)): stores long-term keys for one or more principals. Keytabs are used most often to allow server applications to accept authentications from clients, but can also be used to obtain initial credentials for client applications.
+- **keytab** : 包含principals和加密principal key的文件。 keytab文件对于每个host是**唯一**的，因为<t style="color:red">**key中包含hostname</t>**。keytab文件用于不需要人工交互和保存纯文本密码，实现到kerberos上验证一个主机上的principal。 因为服务器上可以访问keytab文件即可以以principal的身份通过kerberos的认证，所以，keytab文件应该被妥善保存，应该只有少数的用户可以访问。
+> stores long-term keys for one or more principals. Keytabs are used most often to allow server applications to accept authentications from clients, but can also be used to obtain initial credentials for client applications.([ref](http://web.mit.edu/kerberos/krb5-latest/doc/basic/keytab_def.html#keytab-definition)):
 
-## Kerberos 如何工作
 
-~~Kerberos的认证过有点复杂，要给它说明白不是一件容易的事。所以，在本节中我们先介绍一个简单Authentication例子，
-可以认为它是以简版的kerseros。希望通过分析简版kerseros可以让我们理解kerberos的本质，然后分析简版Kerberos的
-不足之处，从而引入真正的kerberos。当然，高手可以跳过，选择性的看就好。~~
+- **AS (Authentication Server): ** 认证服务器
 
-~~简版的问题：如何获取session key ---》 引入了kdc~~
+- **KDC(key distribution center ): ** 是一个网络服务，提供ticket 和临时会话密钥
+
+- **TSG(Ticket Granting Server):** 许可证服务器
+
+- **TGT(Ticket Granting Ticket):** 可理解为票据的票据，client从kdc获取的
+
+- **Ticket:**一个记录，客户用它来向服务器证明自己的身份，包括客户标识、会话密钥、时间戳。
+
+- **realm:** The Kerberos administrative domain. (自定义)
+
+- **密钥**: Kerberos消息被多种加密密钥加密以确保没人能够篡改客户的票据或者Kerberos消息中的其他数据。
+    + 长期密钥（Long-term key）: 一个密钥（只有目标服务器和KDC知道），并用来加密客户端访问这个目标服务器票据的密钥。
+    + Client/server会话密钥（session key）: 一个短期的、单此会话的密钥，是在用户的身份和权限已经被确认后由KDC建立的用于这个用户的跟某个服务器之间的加密往来信息使用的密钥
+    + KDC/用户 会话密钥（session key）: 是KDC跟用户共享的一个密钥，被用于加密这个用户跟KDC之间的消息。
+
+## Kerberos 原理简介
+
+图：。。。
+
+**解决的Hadoop安全认证问题**
+
+先对集群中确定的机器由管理员手动添加到kerberos数据库中(addprinc node1)，在KDC上分别产生主机与各个节点的keytab(包含了host和对应节点的名字，还有他们之间的密钥，ktadd -k a.keytab principal)，并将这些keytab分发到对应的节点上。通过这些 keytab 文件，节点可以从KDC上获得与目标节点通信的密钥，进而被目标节点所认证，提供相应的服务，防止了被冒充的可能性。
 
 ### 1. Authentication
 该步骤的目的：证明你就是你
@@ -67,7 +69,24 @@ b. server 端用 CSKey 解密数据A，并与未加密的数据B进行比较，�
 
 Kerberos 服务(kerberos官网)是一种通过网络提供安全验证处理的客户机/服务器体系结构。通过验证，可保证网络事务的发送者和接收者的身份真实。该服务还可以检验来回传递的数据的有效性（完整性），并在传输过程中对数据进行加密（保密性）。使用 Kerberos 服务，可以安全登录到其他计算机、执行命令、交换数据以及传输文件。此外，该服务还提供授权服务，这样，管理员便可限制对服务和计算机的访问。而且，作为 Kerberos 用户，您还可以控制其他用户对您帐户的访问。
 
+.......
 
+## 如何保证安全
+
+
+- kerberos \^1 的安全是建立在主机都是安全的而网络不是安全的假定之上的。所以kerberos的安全其实就在于把主机的安全做好；
+
+- 尤其是KDC那台机器的安全。出于安全的考虑，跑KDC的机器上不能再跑别的服务，如果KDC被攻陷了，那么所有的密码就全部泄露了；
+
+- 如果只是服务的机器被攻陷了，那么更改服务的principal的密码即可；
+
+- 如果是用户的机器被攻陷了，那么在ticket超时（一般是数小时的时间里）之前，用户都是不安全的，攻击者还有可能尝试反向用户的密码；
+
+- Kerberos依赖其它的服务来存放用户信息（登录shell、UID、GID啥的），因此需要注意到这些信息依然是很容易遭受攻击并且泄露的；
+
+- 由于任何人都可以向KDC请求任何用户的TGT（使用用户密码加密的session key），那么攻击者就有可能请求一个这样的包下来尝试解密，他们有充足的时间离线去做这个工作，一旦解开了，他们也就拿到了用户的密码。简单密码几乎一解就开，所以不能设置简单密码，也不能在字典里。另外还可以打开Kerberos的预验证机制来防御这种攻击，预验证机制就是在KDC收到用户请求TGT的请求之后，要求用户先发一个用自己密码加密的时间戳过来给KDC，KDC如果确实可以用自己存储的用户密码解密，才发TGT给用户，这样攻击者在没有用户密码的时候就拿不到可用于反向的包含用户密码的TGT包了。在MIT kerberos中在配置文件中default_principal_flags = + preauth可以打开这个机制。但这个机制也并不是无懈可击的，攻击者依然可以通过嗅探的方式在正常用户请求TGT时拿到上述的那个包（这个难度显然就高了一些）；
+
+- <t style="color: red;">还有一个问题是攻击者可能伪造一个KDC，然后用一个伪造的实际不存在的用户向这个KDC请求验证，通过后他就得到了一个用户登录系统的 shell。</t>这种攻击需要在客户端防御，需要客户端主动去验证一下KDC是否是正确的KDC。具体来说就是客户端在得到TGT后进一步要求KDC给一个本物理机的principal（也就是一个用物理机密钥加密的串），然后尝试用物理机存储的密码去解密，由于伪造的KDC没有物理机（host／hostname）的principal密码，所以它无法给出这个包，也就被客户端认定为是伪造的KDC，认证失败。这个机制需要在客户端开启（认证服务器端么），默认是关闭的，在nf里［appdefaults］章节里pam的部分中设置validate=true来开启；
 
 
 tips: 
@@ -160,7 +179,7 @@ yum install krb5-server krb5-libs krb5-auth-dialog
 # 安装 client 端
 yum install krb5-workstation krb5-libs krb5-auth-dialog
 
-# 修改配置文件 /etc/krb5.conf  /Users/cy/github/Notes/markdown-css
+# 修改配置文件 /etc/krb5.conf 
 
 # 创建/初始化 Kerberos database
 /usr/sbin/kdb5_util create -s 
@@ -179,8 +198,17 @@ echo */admin@EXAMPLE.COM     * >> /var/kerberos/krb5kdc/kadm5.acl
 /etc/rc.d/init.d/kamdin start
 
 # 检查是否正常工作
-kinit admin/admin@EXAMPLE.COM   # 需输入密码
+kinit admin/admin@EXAMPLE.COM   # 认证用户
 klist 
+
+# 生成 keytab
+kadmin.local -q "ktadd -norandkey -k hdfs.keytab  hdfs/Slave1@TEST.COM"
+
+# 查看 keytab
+klist -k hdfs.keytab
+
+# 验证 keytab
+scp hdfs.keytab Slave1:/home/hdfs/
+kinit -k -t hdfs.keytab hdfs/Slave1@TEST.COM
+
 ```
-
-
