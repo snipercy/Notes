@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# USAGE
+# 1) add a principal with a password and generate a keytab for it
+# bdockrb.sh keytab_pw {username} {password}
+#
+# 2) add a principal with a rand key and generate a keytab for it
+# bdockrb.sh keytab_randkey {username}
+#
+# 3) delete a principal and remove the keytab
+# bdockrb.sh delkeytab {username}
+#
+
+
 REALM=TEST.COM
 PRINC_APPEND=${REALM}
 
