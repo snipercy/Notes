@@ -16,7 +16,6 @@ services: NIS, LDAP, or Samba.
 # 基础概念
 
 - **princals(安全个体):**被认证的个体，有一个名字和口令，客户端和服务器都有一个唯一的名字。 kerberos为kerberos principal分配tickets使其可以访问由kerberos加密的hadoop服务。 通常它长这样：`primary/instance@realm`，各个字段含义如下：
-
 ```
 primary: user or service name
 instance: optional for user principals, but required for service principals 
@@ -89,10 +88,7 @@ Service: imap/bar.foo.com@FOO.COM
 # 实战篇(杂)
 请参考官网手册或conference上相关手册
 
-password management
-
-1. 修改密码
-
+- 修改密码
 ```shell
 shell% kpasswd
 Password for david:    <- Type your old password.
@@ -102,42 +98,37 @@ Password changed.
 shell%
 ```
 
-修改密码后需要注意，一旦密码修改后，同步整个集群的信息需要花一些时间。
+	修改密码后需要注意，一旦密码修改后，同步整个集群的信息需要花一些时间。
 > If you need to get new Kerberos tickets shortly after changing your password, try the new password. If the new password doesn’t work, try again using the old one.
 
-2. Granting access to your account
-
+- Granting access to your account
 可以将我们的权限转给别人用，而不用将密码给别人，通过再家目录创建/配置 .k5login 即可，例子：
 ```
 ycheng@SCH.STM.EDU
 jack@EXAMPLE.COM
 ```
-This file would allow the users jennifer and david to use your user ID, provided that they had Kerberos tickets in their respective realms. If you will be logging into other hosts across a network, you will want to include your own Kerberos principal in your .k5login file on each of these hosts.
+>This file would allow the users jennifer and david to use your user ID, provided that they had Kerberos tickets in their respective realms. If you will be logging into other hosts across a network, you will want to include your own Kerberos principal in your .k5login file on each of these hosts.
 
-
-3. 生成 ticket 
-
+- 生成 ticket 
 ``` shell
-shell% kinit -f -l 3h david@EXAMPLE.COM
+shell% kinit david@EXAMPLE.COM
 Password for david@EXAMPLE.COM: <-- [Type david's password here.]
 shell%
 ```
-第一次生成的就是 TGT 
+第一次生成的就是 TGT，当 kinit 不加参数:
+ >
+ By default, kinit assumes you want tickets for your own username in your default realm. eg: root@TEST.COM
 
-4. 查看 tickets
-
+- 查看 tickets
 ``` shell
 shell% klist
 Ticket cache: /tmp/krb5cc_ttypa
 Default principal: jennifer@ATHENA.MIT.EDU
-
 Valid starting     Expires            Service principal
 06/07/04 19:49:21  06/08/04 05:49:19  krbtgt/ATHENA.MIT.EDU@ATHENA.MIT.EDU
 shell%
 ```
-
 > the “service principal” describes each ticket. The ticket-granting ticket has a first component krbtgt, and a second component which is the realm name
-
 > [do-build](http://web.mit.edu/kerberos/krb5-latest/doc/build/doing_build.html#do-build)
 
 ~~**源码安装**：
@@ -178,14 +169,24 @@ echo */admin@EXAMPLE.COM     * >> /var/kerberos/krb5kdc/kadm5.acl
 kinit admin/admin@EXAMPLE.COM   # 认证用户
 klist 
 
-# 生成 keytab
-kadmin.local -q "ktadd -norandkey -k hdfs.keytab  hdfs/Slave1@TEST.COM"
+# ktadd
+# -norandkey 只有kadmin.local 才有
+kadmin.local -q "ktadd -norandkey -k hdfs.keytab  bdoc@TEST.COM bdoc/admin@TEST.COM"
+OR:
+ktadd -k hdfs.keytab bdoc@TEST.COM
 
 # 查看 keytab
 klist -k hdfs.keytab
 
-# 验证 keytab
+# kadmin
+不kinit，使用keytab文件拥有admin权限
+kadmin -kt bdoc.keytab -p bdoc/admin@TEST.COM -q "listprincs"
+
+# 使用 keytab
 scp hdfs.keytab Slave1:/home/hdfs/
+ssh Slave1
 kinit -k -t hdfs.keytab hdfs/Slave1@TEST.COM
 
+# 给远程机Slave1,bdoc用户添加kadmin权限
+kadmin.local -q "addprinc bdoc/admin@TEST.COM"
 ```
