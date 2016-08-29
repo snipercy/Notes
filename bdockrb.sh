@@ -94,7 +94,9 @@ case "$1" in
 		;;
 	keytab_randkey)
 		# if [ -z "$2" ]; then
-		if [ x"$2" = x ]; then
+		# if [ x"$2" = x ]; then
+		if [ $# -lt 2 ]; then
+			echo args is wrong!
 			exit 1
 		fi
 		addprinc_with_randkey $2
