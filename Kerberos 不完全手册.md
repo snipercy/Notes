@@ -1,8 +1,9 @@
-Kerberos V5 不完全手册
-======
+<b style="font-size:24pt">Kerberos V5 不完全手册             </b> *by chengyang*
+
 [TOC]
 
 # 什么是 Kerberos
+
 >
 A commonly found description for Kerberos is "a secure, single sign on, trusted third party
 mutual authentication service". It doesn't store any information about UIDs, GIDs, or home's
@@ -56,7 +57,6 @@ Service: imap/bar.foo.com@FOO.COM
 ![tgs](I:\\git\\Notes\\image\\tgs.jpg)
 <t style="color:grey">(对应上图中client与service通信过程)</t>
 
->
 （1）Client将之前获得TGT和要请求的服务信息(服务名等)发送给KDC，KDC中的Ticket Granting Service将为Client和Service之间生成一个Session Key用于Service对Client的身份鉴别。然后KDC将这个Session Key和用户名，用户地址（IP），服务名，有效期, 时间戳一起包装成一个Ticket(这些信息最终用于Service对Client的身份鉴别)发送给Service， 不过Kerberos协议并没有直接将Ticket发送给Service，而是通过Client转发给Service，所以有了第二步。
 （2）此时KDC将刚才的Ticket转发给Client。由于这个Ticket是要给Service的，不能让Client看到，所以KDC用协议开始前KDC与Service之间的密钥将Ticket加密后再发送给Client。同时为了让Client和Service之间共享那个密钥(KDC在第一步为它们创建的Session Key)，KDC用Client与它之间的密钥将Session Key加密随加密的Ticket一起返回给Client。
 （3）为了完成Ticket的传递，Client将刚才收到的Ticket转发到Service. 由于Client不知道KDC与Service之间的密钥，所以它无法算改Ticket中的信息。同时Client将收到的Session Key解密出来，然后将自己的用户名，用户地址（IP）打包成Authenticator用Session Key加密也发送给Service。
@@ -138,7 +138,7 @@ shell%
 - make install   or  make install DESTDIR=/path/to/destdir
 - make check~~
 
-**二进制文件安装**:
+**常用命令**:
 
 ```shell
 # 安装 server 端
