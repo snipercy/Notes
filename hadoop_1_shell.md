@@ -1,9 +1,40 @@
 
 ## hive
-jdbc:hive2://20.26.29.46:10000/test_zhejian23?hadoop.security.bdoc.access.id=f21c375953df0c0fcf17;hadoop.security.bdoc.access.key=16e7104c92df7e5728296584c3bda7abdb49689c"
+jdbc:hive2://20.26.29.46:10000/test_zhejian23?hadoop.security.bdoc.access.id=f21c375953df0c0fcf17;hadoop.security.bdoc.access.key=16e7104c92df7e5728296584c3bda7abdb49689c
 
 beeline 连接hive  zk模式
 !connect jdbc:hive2://dsjtest-16.novalocal:2181,dsjtest-17.novalocal:2181,dsjtest-18.novalocal:2181/default;serviceDiscoveryMode=zookeeper;zooKeeperNamespace=hiveserver2?hadoop.security.bdoc.access.id=0aca8fd72c0e57dad87f;hadoop.security.bdoc.access.key=hive
+
+### rest api
+> 参考地址 https://cwiki.apache.org/confluence/display/Hive/WebHCat+Reference
+
+- 获取所有的数据库列表
+```
+curl -s 'http://localhost:50111/templeton/v1/ddl/database?user.name=hive&like=*' 
+
+json output:
+{
+    "databases": [
+       "newdb",
+        "newdb2"
+    ]
+}
+
+```
+
+- 删除某个数据库
+```
+curl -s -X DELETE "http://localhost:50111/templeton/v1/ddl/database/{db_name}?user.name=hive"
+
+json output:
+{
+  "database":"newdb"
+}
+
+```
+
+
+
 
 # hdfs 
 ## datanode 启动不了
