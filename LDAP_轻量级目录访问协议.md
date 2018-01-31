@@ -43,7 +43,7 @@ RDN在一个OU中必须是唯一的。
 dn:cn=honglv,ou=bei,ou=xi,ou=dong,dc=waibo,dc=com  
 ```
 
-## 基础概率：
+## 基础概念：
 
 ### Entry 
 条目、记录项。对LDAP的添加、删除、更改、检索的基本对象。
