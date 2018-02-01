@@ -61,3 +61,12 @@ RootDN 通常与RootPW同时出现，特指管理LDAP中信息的最高权限用
 每个条目都可以有很多属性（Attribute），比如常见的人都有姓名、地址、电话等属性。
 每个属性都有名称及对应的值，属性值可以有单个、多个，比如你有多个邮箱。
 
+## 常用命令
+```shell
+# 搜索
+ldapsearch -x
+
+# add
+ldapadd -x -D "cn=Manager,dc=hadoop,dc=apache,dc=org" -w passwd -f initdate.ldif
+```
+
