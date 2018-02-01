@@ -61,6 +61,20 @@ RootDN 通常与RootPW同时出现，特指管理LDAP中信息的最高权限用
 每个条目都可以有很多属性（Attribute），比如常见的人都有姓名、地址、电话等属性。
 每个属性都有名称及对应的值，属性值可以有单个、多个，比如你有多个邮箱。
 
+###  CN, OU, DC 都是 LDAP 连接服务器的端字符串中的区别名称（DN, distinguished   name） 
+LDAP连接服务器的连接字串格式为：ldap://servername/DN   
+其中DN有三个属性，分别是CN,OU,DC   
+LDAP是一种通讯协议，如同HTTP是一种协议一样的！ 
+DC (Domain Component)
+CN (Common Name)
+OU (Organizational Unit)
+
+LDAP 目录类似于文件系统目录 ：DC=redmond,DC=wa,DC=microsoft,DC=com  
+如果我们类比文件系统的话，可被看作如下文件路径: 
+Com\Microsoft\Wa\Redmond   
+例如：CN=test,OU=developer,DC=domainname,DC=com 
+在上面的代码中 cn=test 可能代表一个用户名，ou=developer 代表一个 active directory 中的组织单位。这句话的含义可能就是说明 test 这个对象处在domainname.com 域的 developer 组织单元中。
+
 ## 常用命令
 ```shell
 # 搜索
