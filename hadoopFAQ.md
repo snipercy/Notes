@@ -177,6 +177,4 @@ yarn.admin.acl  =  yarn,dr.who
 
 mapreduce.job.acl-view-job = dr.who
 
-
-24号：
-创建kylin失败：
+# 
